@@ -1,11 +1,8 @@
-/**
- * @param {number[][]} points
- * @return {number}
- */
+
 var maxPoints = function (points) {
     const n = points.length;
     if (n <= 2) {
-        return n; // If there are 2 or fewer points, they all lie on the same line.
+        return n; 
     }
 
     let maxPointsOnLine = 0;
