@@ -1,17 +1,30 @@
-function minOperationsToMakeIncreasing(arr1, arr2) {
-    const n = arr1.length;
-    const m = arr2.length;
+/**
+ * @param {number[]} arr1
+  * @param {number[]} arr2
+   * @return {number}
+    */
 
+
+var makeArrayIncreasing = function (arr1, arr2) {
     arr2.sort((a, b) => a - b);
-
-    const dp = new Array(n).fill(null).map(() => new Array(m + 1).fill(Number.MAX_SAFE_INTEGER));
-
-    dp[0][0] = 0;
-…            prevMinOps = Math.min(prevMinOps, dp[i - 1][j]);
+    const binarySearch = (arr, target) => {
+        let l = 0, r = arr.length, mid;
+        while (l < r) {
+            mid = (l + r) >> 1;
+            arr[mid] > target ? r = mid : l = ++mid;
         }
+        return l;
     }
-
-    const result = Math.min(...dp[n - 1]);
-
-    return result === Number.MAX_SAFE_INTEGER ? -1 : result;
-}
+    const dfs = (i, prev) => {
+        if (i >= arr1.length) return 0;
+        let key = `${i},${prev}`;
+        if (key in memo) return memo[key];
+        let j = binarySearch(arr2, prev);
+        let swap = j < arr2.length ? 1 + dfs(i + 1, arr2[j]) : Infinity;
+        let noSwap = arr1[i] > prev ? dfs(i + 1, arr1[i]) : Infinity;
+        return memo[key] = Math.min(swap, noSwap);
+    }
+    const memo = {};
+    const changes = dfs(0, -Infinity);
+    return changes === Infinity ? -1 : changes;
+};
