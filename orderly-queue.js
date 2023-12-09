@@ -1,15 +1,12 @@
-function getLexicographicallySmallestString(s, k) {
-    let result = '';
+const orderlyQueue = function (s, k) {
+    if (k > 1) return s.split("").sort().join("");
+    let res = s;
+    const n = s.length;
 
-    while (k > 0) {
-        let smallestChar = s[0];
-        let smallestIndex = 0;
+    for (let i = 0; i < n; i++) {
+        s = s.slice(1) + s[0];
+        res = res.localeCompare(s) < 0 ? res : s;
+    }
 
-        // Find the smallest character within the first k characters
-        for (let i = 1; i <= k; i++) {
-            if (s[i] < smallestChar) {
-…    }
-
-    return result;
-}
-
+    return res;
+};
